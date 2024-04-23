@@ -1,0 +1,133 @@
+		//如果连接报文连接成功
+		if(Connect_ReturnData()==0)
+		{
+				u1_printf("CONNECT报文连接成功\r\n\r\n");  
+				ConnectPack_flag=1;	//ConnectPack_flag连接报文标志 = 1
+		}
+		/这是执行的第二遍 已经启动ConnectPack_flag = 1 还能进入这个函数 肯定写错了
+				//如果连接报文失败
+		else if(Connect_ReturnData() != 0)//如果连接报文失败 重启// 
+		{
+			u1_printf("问题1\r\n\r\n");  
+				ConnectPack_flag=0;//否则 ConnectPack_flag = 0
+		}
+		//如果订阅报文成功
+		else if(Subscribe_ReturnData() == 0)
+		{
+				u1_printf("订阅成功\r\n\r\n");
+				SubscribePack_flag = 1;    //subcribePackFlag置1，表示订阅报文成功，其他报文可发送
+				TIM3_Init(60000-1,36000-1);//订阅成功 启动定时器3//PIN功能   //启动30s的PING定时器	
+				TIM2_Init(60000-1,36000-1);//订阅成功 启动定时器2//发送报文
+				Ping_flag = 0;	
+		}
+				//如果订阅报文失败
+		else if(Subscribe_ReturnData() != 0)
+		{
+				u1_printf("订阅失败，准备重启\r\n"); 
+				ConnectALi_flag = 0;    ////ConnectALi_flag 置零，重启连接
+		}
+		//Ping报文接收成功
+		else if(Pin_ReturnData() == 0)
+		{
+				u1_printf("Ping回复正常！\r\n");//正常情况Pin成功
+		}
+				//Ping报文接收失败
+		else if(Pin_ReturnData() != 0)
+		{
+			  u1_printf("Ping回复失败！\r\n");//正常情况Pin成功
+		}
+		//命令报文接收成功 压入 命令提取容器
+		else if(Ito_returnCmd() == 0)
+		{
+			  u1_printf("服务器推送的内容是\r\n"); 		    
+				mqtt_Dealsetdata_Qs0(mqtt_RxOutPtr);
+		}				
+
+
+
+
+
+		//如果连接报文连接成功
+		if(Connect_ReturnData()==0)
+		{
+				u1_printf("CONNECT报文连接成功\r\n\r\n");  
+				ConnectPack_flag=1;	//ConnectPack_flag连接报文标志 = 1
+		}
+		//如果订阅报文成功
+		else if(Subscribe_ReturnData() == 0)
+		{
+				u1_printf("订阅成功\r\n\r\n");
+				SubscribePack_flag = 1;    //subcribePackFlag置1，表示订阅报文成功，其他报文可发送
+				TIM3_Init(60000-1,36000-1);//订阅成功 启动定时器3//PIN功能   //启动30s的PING定时器	
+				TIM2_Init(60000-1,36000-1);//订阅成功 启动定时器2//发送报文
+				Ping_flag = 0;	
+		}
+		//Ping报文接收成功
+		else if(Pin_ReturnData() == 0)
+		{
+				u1_printf("Ping回复正常！\r\n");//正常情况Pin成功
+		}
+		//命令报文接收成功 压入 命令提取容器
+		else if(Ito_returnCmd() == 0)
+		{
+			  u1_printf("服务器推送的内容是\r\n"); 		    
+				mqtt_Dealsetdata_Qs0(mqtt_RxOutPtr);
+		}				
+		//如果连接报文失败
+		else if(Connect_ReturnData() != 0   && Connect_ReturnData() != 9 )//如果连接报文失败 重启
+		{
+					u1_printf("连接报文失败，准备重启\r\n");
+				ConnectPack_flag=0;//否则 ConnectPack_flag = 0
+		}
+		//如果订阅报文失败
+		else if(Subscribe_ReturnData() != 0)
+		{
+				u1_printf("订阅失败，准备重启\r\n"); 
+				ConnectALi_flag = 0;    ////ConnectALi_flag 置零，重启连接
+		}
+		//Ping报文接收失败
+		else if(Pin_ReturnData() != 0)
+		{
+			  u1_printf("Ping回复失败！\r\n");//正常情况Pin成功
+		}
+
+
+
+
+//	My_USART1();
+	//DHT11_Init();
+	
+//	ack = IICAdress(0x3C);
+//	printf("ack1 = %d\r\n",ack);
+//	ack = IICAdress(0x3F);
+//	printf("ack1 = %d\r\n",ack);
+//	OLED_ShowCHinese(8,0,0,16);//第0页开始 一页8bit 一个汉字占两页
+//	OLED_ShowCHinese(24,0,1,16);
+//	OLED_ShowCHinese(40,0,2,16);
+//	OLED_ShowCHinese(56,0,3,16);
+//	OLED_ShowCHinese(72,0,4,16);
+//	OLED_ShowCHinese(86,0,5,16);
+//	OLED_ShowCHinese(102,0,6,16);
+			
+//		OLED_ShowString(20,3,"Temp:",16);
+//		OLED_ShowString(20,5,"Humi:",16);
+//		OLED_ShowCHinese(80,3,7,16);//℃
+//		OLED_ShowString(80,5," %",16); 
+ // OLED_ShowCN(2,1,19);
+//	OLED_ShowString(1,16,"h");
+//	OLED_ShowCN(2,2,20);
+	//OLED_ShowCN(1,3,21);
+//	OLED_ShowCN(1,4,0);
+//	OLED_ShowCN(1,5,0);
+//	OLED_ShowCN(1,6,0);
+//	OLED_ShowCN(1,1,0);
+//	OLED_ShowCN(1,2,0);
+//	OLED_ShowCN(1,3,0);
+
+//	OLED_ShowCN(1,4,21)
+
+
+
+
+
+
